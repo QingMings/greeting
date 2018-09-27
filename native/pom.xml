@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://maven.apache.org/POM/4.0.0"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>io.github.yiheng</groupId>
+        <artifactId>greeting</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>greeting_native</artifactId>
+    <packaging>dll</packaging>
+
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>native-maven-plugin</artifactId>
+                <version>1.0-alpha-8</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <compilerProvider>generic-classic</compilerProvider>
+                    <compilerExecutable>gcc</compilerExecutable>
+                    <linkerExecutable>gcc</linkerExecutable>
+                    <sources>
+                        <source>
+                            <directory>${basedir}/src/main/c/jni</directory>
+                            <fileNames>
+                                <fileName>Greeting.c</fileName>
+                            </fileNames>
+                        </source>
+                    </sources>
+                    <compilerStartOptions>
+
+                        <compilerStartOption>-Wl,--add-stdcall-alias</compilerStartOption> <!-- window 加这个消除函数导出带的@符号-->
+                        <compilerStartOption>-I C:/"Program Files"/Java/jdk1.8.0_152/include/</compilerStartOption>
+                        <compilerStartOption>-I C:/"Program Files"/Java/jdk1.8.0_152/include/win32/</compilerStartOption>
+                    </compilerStartOptions>
+                    <compilerEndOptions>
+                        <compilerEndOption>-shared</compilerEndOption>
+                        <compilerEndOption>-fPIC</compilerEndOption>
+                    </compilerEndOptions>
+                    <linkerStartOptions>
+                        <linkerStartOption>-Wl,--add-stdcall-alias</linkerStartOption>
+                        <linkerStartOption>-I C:/"Program Files"/Java/jdk1.8.0_152/include/</linkerStartOption>
+                        <linkerStartOption>-I C:/"Program Files"/Java/jdk1.8.0_152/include/win32/</linkerStartOption>
+                    </linkerStartOptions>
+                    <linkerEndOptions>
+                        <linkerEndOption>-shared</linkerEndOption>
+                        <linkerEndOption>-fPIC</linkerEndOption>
+                    </linkerEndOptions>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
